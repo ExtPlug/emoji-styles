@@ -29,7 +29,17 @@ define(function (require, exports, module) {
     },
 
     settings: {
-      style: { default: 'apple' }
+      style: {
+        type: 'dropdown',
+        label: 'Emoji Style',
+        options: {
+          apple: 'Apple',
+          twitter: 'Twitter',
+          google: 'Google Hangouts',
+          emojione: 'EmojiOne'
+        },
+        default: 'apple'
+      }
     },
 
     commands: {
@@ -38,6 +48,7 @@ define(function (require, exports, module) {
 
     enable() {
       this.listenTo(this.settings, 'change:style', this.onChange);
+      this.onChange()
     },
 
     setStyle(className) {
