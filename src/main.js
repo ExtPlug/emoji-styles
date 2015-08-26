@@ -1,10 +1,12 @@
 define(function (require, exports, module) {
 
   const Plugin = require('extplug/Plugin');
+  const emoji = require('plug/util/emoji');
+  const { around } = require('meld');
 
   const SHEET_URL = 'https://extplug.github.io/emoji-styles/img/';
-  const SELECTOR = 'span.emoji-inner:not(.gemoji-plug)'
-  const STYLES = [ 'apple', 'twitter', 'google', 'emojione' ]
+  const SELECTOR = 'span.emoji-inner:not(.gemoji-plug)';
+  const STYLES = [ 'apple', 'twitter', 'google', 'emojione' ];
 
   const EmojiStyles = Plugin.extend({
     name: 'Emoji Styles',
@@ -51,6 +53,12 @@ define(function (require, exports, module) {
       this.onChange()
     },
 
+    disable() {
+      if (this.advice) {
+        this.advice.remove();
+      }
+    },
+
     setStyle(className) {
       if (STYLES.indexOf(className) > -1) {
         this.settings.set('style', className);
@@ -61,10 +69,21 @@ define(function (require, exports, module) {
     },
 
     onChange() {
+      if (this.advice) {
+        this.advice.remove();
+      }
+
       let className = this.settings.get('style');
       $('body')
         .removeClass(STYLES.map(name => `extplug-emoji-style-${name}`).join(' '))
         .addClass(`extplug-emoji-style-${className}`);
+
+      if (className !== 'apple') {
+        // remove variation argument for sheets without variation emoji images
+        this.advice = around(emoji, 'replacement', joinpoint => {
+          return joinpoint.proceedApply(joinpoint.args.slice(0, 3));
+        });
+      }
     }
   });
 
