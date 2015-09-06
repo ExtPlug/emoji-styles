@@ -3,6 +3,7 @@ define(function (require, exports, module) {
   const Plugin = require('extplug/Plugin');
   const emoji = require('plug/util/emoji');
   const { around } = require('meld');
+  const $ = require('jquery');
 
   const SHEET_URL = 'https://extplug.github.io/emoji-styles/img/';
   const SELECTOR = 'span.emoji-inner:not(.gemoji-plug)';
