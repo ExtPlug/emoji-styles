@@ -1,6 +1,8 @@
 Emoji Styles
 ============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/extplug/emoji-styles.svg)](https://greenkeeper.io/)
+
 Choose between Apple/Twitter/Google style emoji.
 
 ## Installation
